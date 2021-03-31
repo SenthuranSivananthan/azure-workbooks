@@ -1,0 +1,1364 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "parameters": [
+          {
+            "id": "e01adf48-f9b4-44bf-8f89-74a8074366b2",
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange",
+            "type": 4,
+            "isRequired": true,
+            "value": {
+              "durationMs": 7776000000
+            },
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 300000
+                },
+                {
+                  "durationMs": 900000
+                },
+                {
+                  "durationMs": 1800000
+                },
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                },
+                {
+                  "durationMs": 5184000000
+                },
+                {
+                  "durationMs": 7776000000
+                }
+              ]
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "label": "Time Range"
+          },
+          {
+            "id": "78b71be8-c2b0-4d82-9f90-22284a63e038",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscription",
+            "type": 6,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "value": [
+              "value::all"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "includeAll": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "defaultValue": "value::all",
+            "label": "Subscriptions"
+          },
+          {
+            "id": "3ed36409-e679-4a94-96ce-b76d25a2bde3",
+            "version": "KqlParameterItem/1.0",
+            "name": "ResourceGroups",
+            "label": "Resource Groups",
+            "type": 2,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources\r\n| where type in~ ('Microsoft.Compute/virtualMachines', 'Microsoft.Compute/virtualMachineScaleSets')\r\n| distinct resourceGroup\r\n| project resourceGroup\r\n| order by resourceGroup asc",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "value": [
+              "value::all"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "selectAllValue": "__all__",
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "defaultValue": "value::all",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "id": "cfc01262-d083-4158-b9c3-9640f88de5e1",
+            "version": "KqlParameterItem/1.0",
+            "name": "VMList",
+            "label": "Virtual Machines",
+            "type": 5,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources\r\n| where type in~ ('Microsoft.Compute/virtualMachines', 'Microsoft.Compute/virtualMachineScaleSets')\r\n| where '__all__' in~ ({ResourceGroups}) or resourceGroup in~ ({ResourceGroups})\r\n| project id",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "value": [
+              "value::all"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "selectAllValue": "__all__",
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "defaultValue": "value::all",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          }
+        ],
+        "style": "pills",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources"
+      },
+      "name": "GlobalParameters"
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "tabs",
+        "links": [
+          {
+            "id": "b143ba9c-1302-47bf-a5a4-951b79ce7a1f",
+            "cellValue": "tabName",
+            "linkTarget": "parameter",
+            "linkLabel": "Machines",
+            "subTarget": "machines",
+            "style": "link"
+          },
+          {
+            "id": "3c5e4164-3702-4586-9468-121a2bf2ebc8",
+            "cellValue": "tabName",
+            "linkTarget": "parameter",
+            "linkLabel": "Software",
+            "subTarget": "software",
+            "style": "link"
+          },
+          {
+            "id": "f073a5b1-50f7-43d3-a45c-a7a2b078bdbe",
+            "cellValue": "tabName",
+            "linkTarget": "parameter",
+            "linkLabel": "Files",
+            "subTarget": "files",
+            "style": "link"
+          },
+          {
+            "id": "674163f3-e864-4fa1-8371-1bd5129091d0",
+            "cellValue": "tabName",
+            "linkTarget": "parameter",
+            "linkLabel": "Windows Registry",
+            "subTarget": "windowsRegistry",
+            "style": "link"
+          },
+          {
+            "id": "59cf0b2f-a09f-4dc1-9119-f721bdd44317",
+            "cellValue": "tabName",
+            "linkTarget": "parameter",
+            "linkLabel": "Windows Services",
+            "subTarget": "windowsServices",
+            "style": "link"
+          },
+          {
+            "id": "b0755cff-f11b-44f0-bc70-cb06ed448db8",
+            "cellValue": "tabName",
+            "linkTarget": "parameter",
+            "linkLabel": "Linux Daemons",
+            "subTarget": "linuxDaemons",
+            "style": "link"
+          }
+        ]
+      },
+      "name": "Tabs"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Machines"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "machines"
+      },
+      "name": "MachinesHeader"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "Heartbeat\r\n| extend Version=case(OSType=='Windows', strcat(OSName, ' ', OSMajorVersion, '.', OSMinorVersion), strcat(OSName, ' ', OSMajorVersion, '.', OSMinorVersion))\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| project TimeGenerated, Computer, OSType, _ResourceId, _SubscriptionId, Version\r\n| summarize LastReported=max(TimeGenerated) by _ResourceId, OSType\r\n| summarize count() by bin(LastReported, 15m), OSType",
+        "size": 0,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "timechart",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "$gen_group",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "OSType",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 5
+            }
+          ],
+          "rowLimit": 10000,
+          "hierarchySettings": {
+            "treeType": 1,
+            "groupBy": [
+              "_SubscriptionId"
+            ],
+            "expandTopLevel": true,
+            "finalBy": "OSType"
+          },
+          "labelSettings": [
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            },
+            {
+              "columnId": "Computer",
+              "label": ""
+            },
+            {
+              "columnId": "OSType",
+              "label": "OS"
+            },
+            {
+              "columnId": "_SubscriptionId",
+              "label": "Subscription"
+            },
+            {
+              "columnId": "LastReported",
+              "label": "Last Reported (UTC)"
+            }
+          ]
+        },
+        "sortBy": [],
+        "graphSettings": {
+          "type": 0
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "machines"
+      },
+      "name": "MachineChart"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "Heartbeat\r\n| extend Version=case(OSType=='Windows', strcat(OSName, ' ', OSMajorVersion, '.', OSMinorVersion), strcat(OSName, ' ', OSMajorVersion, '.', OSMinorVersion))\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| project TimeGenerated, Computer, OSType, _ResourceId, _SubscriptionId, Version\r\n| summarize LastReported=max(TimeGenerated) by _ResourceId, Version, Computer, OSType, _SubscriptionId\r\n| order by LastReported asc",
+        "size": 2,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "$gen_group",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "OSType",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 5
+            }
+          ],
+          "rowLimit": 10000,
+          "hierarchySettings": {
+            "treeType": 1,
+            "groupBy": [
+              "_SubscriptionId"
+            ],
+            "expandTopLevel": true,
+            "finalBy": "OSType"
+          },
+          "labelSettings": [
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            },
+            {
+              "columnId": "Computer",
+              "label": ""
+            },
+            {
+              "columnId": "OSType",
+              "label": "OS"
+            },
+            {
+              "columnId": "_SubscriptionId",
+              "label": "Subscription"
+            },
+            {
+              "columnId": "LastReported",
+              "label": "Last Reported (UTC)"
+            }
+          ]
+        },
+        "sortBy": [],
+        "graphSettings": {
+          "type": 0
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "machines"
+      },
+      "name": "MachineList"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Software"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "software"
+      },
+      "name": "SoftwareHeading"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationData\r\n| where ConfigDataType == \"Software\"\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| project SoftwareName, CurrentVersion, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| order by TimeGenerated desc, SoftwareName asc, Computer asc",
+        "size": 2,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "SoftwareName",
+              "label": "Name"
+            },
+            {
+              "columnId": "CurrentVersion",
+              "label": "Version"
+            },
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Refresh Time (UTC)"
+            },
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            },
+            {
+              "columnId": "_SubscriptionId",
+              "label": "Subscription"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "software"
+      },
+      "name": "SoftwareList"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationData\r\n| where ConfigDataType == \"Software\"\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| project SoftwareName, CurrentVersion, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| summarize count() by bin(TimeGenerated, 15m)",
+        "size": 0,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "timechart",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "SoftwareName",
+              "label": "Name"
+            },
+            {
+              "columnId": "CurrentVersion",
+              "label": "Version"
+            },
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Refresh Time (UTC)"
+            },
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            },
+            {
+              "columnId": "_SubscriptionId",
+              "label": "Subscription"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "software"
+      },
+      "name": "SoftwareChart"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Files"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "files"
+      },
+      "name": "FilesHeader"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationData\r\n| where ConfigDataType == \"Files\"\r\n| project FileSystemPath, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| order by TimeGenerated desc, FileSystemPath asc",
+        "size": 2,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "ResourceGroup",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Icon",
+              "formatter": 11
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "FileSystemPath",
+              "label": "File System Path"
+            },
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Refresh Time (UTC)"
+            },
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            },
+            {
+              "columnId": "_SubscriptionId",
+              "label": "Subscription"
+            },
+            {
+              "columnId": "Computer"
+            },
+            {
+              "columnId": "ResourceGroup"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "files"
+      },
+      "name": "FilesList"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Windows Registry"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "windowsRegistry"
+      },
+      "name": "WindowsRegistryHeading"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationData\r\n| where ConfigDataType == \"Registry\"\r\n| project RegistryKey, ValueName, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| summarize count() by bin(TimeGenerated, 15m)",
+        "size": 1,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "timechart",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "ResourceGroup",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Icon",
+              "formatter": 11
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Refresh Time (UTC)"
+            }
+          ]
+        },
+        "chartSettings": {
+          "seriesLabelSettings": [
+            {
+              "seriesName": "count_",
+              "label": "Changes"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "windowsRegistry"
+      },
+      "name": "WindowsRegistryChart"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationData\r\n| where ConfigDataType == \"Registry\"\r\n| project RegistryKey, ValueName, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| order by TimeGenerated desc, RegistryKey asc, Computer asc",
+        "size": 2,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "ResourceGroup",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Icon",
+              "formatter": 11
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "RegistryKey",
+              "label": "Registry Key"
+            },
+            {
+              "columnId": "ValueName",
+              "label": "Value Name"
+            },
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Refresh Time (UTC)"
+            },
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            },
+            {
+              "columnId": "_SubscriptionId",
+              "label": "Subscription"
+            },
+            {
+              "columnId": "Computer"
+            },
+            {
+              "columnId": "ResourceGroup"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "windowsRegistry"
+      },
+      "name": "WindowsRegistryList"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Windows Services"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "windowsServices"
+      },
+      "name": "WindowsServiceHeading"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "parameters": [
+          {
+            "id": "b4c26861-35ae-4838-a492-09d84dc27401",
+            "version": "KqlParameterItem/1.0",
+            "name": "WindowsServiceState",
+            "label": "State",
+            "type": 2,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "ConfigurationData\r\n| where ConfigDataType == \"WindowsServices\"\r\n| project SvcState, _ResourceId\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| distinct SvcState\r\n| order by SvcState asc",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "defaultValue": "value::all",
+            "queryType": 0,
+            "resourceType": "microsoft.resources/subscriptions"
+          },
+          {
+            "version": "KqlParameterItem/1.0",
+            "name": "WindowsServiceStartUpType",
+            "label": "Start up type",
+            "type": 2,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "ConfigurationData\r\n| where ConfigDataType == \"WindowsServices\"\r\n| project SvcStartupType, _ResourceId\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| distinct SvcStartupType\r\n| order by SvcStartupType asc",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "defaultValue": "value::all",
+            "queryType": 0,
+            "resourceType": "microsoft.resources/subscriptions",
+            "id": "fee6abbd-b529-4184-8d71-4b5ff71e35d6"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "windowsServices"
+      },
+      "name": "WindowsServiceParameters"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationData\r\n| where ConfigDataType == \"WindowsServices\"\r\n| where SvcState in~ ({WindowsServiceState})\r\n| where SvcStartupType in~ ({WindowsServiceStartUpType})\r\n| project SvcName, SvcDisplayName, SvcState, SvcStartupType, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| summarize count() by bin(TimeGenerated, 15m), SvcState",
+        "size": 0,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "timechart",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "ResourceGroup",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Icon",
+              "formatter": 11
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "SvcName",
+              "label": "Service"
+            },
+            {
+              "columnId": "SvcDisplayName",
+              "label": "Display Name"
+            },
+            {
+              "columnId": "SvcState",
+              "label": "State"
+            },
+            {
+              "columnId": "SvcStartupType",
+              "label": "Start up type"
+            },
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Refresh Time (UTC)"
+            },
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            },
+            {
+              "columnId": "_SubscriptionId",
+              "label": "Subscription"
+            },
+            {
+              "columnId": "Computer"
+            },
+            {
+              "columnId": "ResourceGroup"
+            }
+          ]
+        },
+        "chartSettings": {
+          "seriesLabelSettings": [
+            {
+              "seriesName": "Stopped",
+              "color": "red"
+            },
+            {
+              "seriesName": "Running",
+              "color": "green"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "windowsServices"
+      },
+      "name": "WindowsServiceChart"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationData\r\n| where ConfigDataType == \"WindowsServices\"\r\n| where SvcState in~ ({WindowsServiceState})\r\n| where SvcStartupType in~ ({WindowsServiceStartUpType})\r\n| project SvcName, SvcDisplayName, SvcState, SvcStartupType, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| order by TimeGenerated desc, SvcName asc, Computer asc",
+        "size": 2,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "ResourceGroup",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Icon",
+              "formatter": 11
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "SvcName",
+              "label": "Service"
+            },
+            {
+              "columnId": "SvcDisplayName",
+              "label": "Display Name"
+            },
+            {
+              "columnId": "SvcState",
+              "label": "State"
+            },
+            {
+              "columnId": "SvcStartupType",
+              "label": "Start up type"
+            },
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Refresh Time (UTC)"
+            },
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            },
+            {
+              "columnId": "_SubscriptionId",
+              "label": "Subscription"
+            },
+            {
+              "columnId": "Computer"
+            },
+            {
+              "columnId": "ResourceGroup"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "windowsServices"
+      },
+      "name": "WindowsServiceList"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Linux Daemons"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "linuxDaemons"
+      },
+      "name": "LinuxDaemonHeading"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "parameters": [
+          {
+            "id": "bcc987a3-08b9-42cc-b84f-b1c68fba17d2",
+            "version": "KqlParameterItem/1.0",
+            "name": "LinuxDaemonState",
+            "type": 2,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "ConfigurationData\r\n| where ConfigDataType == \"Daemons\"\r\n| project SvcState, _ResourceId\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| distinct SvcState\r\n| order by SvcState asc",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "value": [
+              "value::all"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "defaultValue": "value::all",
+            "queryType": 0,
+            "resourceType": "microsoft.resources/subscriptions",
+            "label": "State"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "linuxDaemons"
+      },
+      "name": "LinuxDaemonsParameters"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationData\r\n| where ConfigDataType == \"Daemons\"\r\n| where SvcState in ({LinuxDaemonState})\r\n| project SvcName, SvcState, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| summarize count() by bin(TimeGenerated, 15m), SvcState",
+        "size": 0,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "timechart",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "ResourceGroup",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Icon",
+              "formatter": 11
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Refresh Time (UTC)"
+            },
+            {
+              "columnId": "SvcState",
+              "label": "State"
+            }
+          ]
+        },
+        "chartSettings": {
+          "seriesLabelSettings": [
+            {
+              "seriesName": "Stopped",
+              "color": "red"
+            },
+            {
+              "seriesName": "Running",
+              "color": "green"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "linuxDaemons"
+      },
+      "showPin": true,
+      "name": "LinuxDaemonsChart"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationData\r\n| where ConfigDataType == \"Daemons\"\r\n| where SvcState in ({LinuxDaemonState})\r\n| project SvcName, SvcState, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| order by TimeGenerated desc, SvcName asc, Computer asc",
+        "size": 2,
+        "timeContext": {
+          "durationMs": 7776000000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "Computer",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "ResourceGroup",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Icon",
+              "formatter": 11
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "SvcName",
+              "label": "Service"
+            },
+            {
+              "columnId": "SvcState",
+              "label": "State"
+            },
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Refresh Time (UTC)"
+            },
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "linuxDaemons"
+      },
+      "showPin": true,
+      "name": "LinuxDaemonsList"
+    }
+  ],
+  "fallbackResourceIds": [
+    "Azure Monitor"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
