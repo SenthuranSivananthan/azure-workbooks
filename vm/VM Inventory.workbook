@@ -76,25 +76,23 @@
             "id": "78b71be8-c2b0-4d82-9f90-22284a63e038",
             "version": "KqlParameterItem/1.0",
             "name": "Subscription",
+            "label": "Subscriptions",
             "type": 6,
             "isRequired": true,
             "multiSelect": true,
             "quote": "'",
             "delimiter": ",",
-            "value": [
-              "value::all"
-            ],
             "typeSettings": {
               "additionalResourceOptions": [
                 "value::all"
               ],
-              "includeAll": false
+              "includeAll": false,
+              "showDefault": false
             },
             "timeContext": {
               "durationMs": 86400000
             },
-            "defaultValue": "value::all",
-            "label": "Subscriptions"
+            "defaultValue": "value::all"
           },
           {
             "id": "3ed36409-e679-4a94-96ce-b76d25a2bde3",
@@ -162,7 +160,7 @@
           }
         ],
         "style": "pills",
-        "queryType": 1,
+        "queryType": 0,
         "resourceType": "microsoft.resourcegraph/resources"
       },
       "name": "GlobalParameters"
@@ -336,7 +334,7 @@
         "query": "Heartbeat\r\n| extend Version=case(OSType=='Windows', strcat(OSName, ' ', OSMajorVersion, '.', OSMinorVersion), strcat(OSName, ' ', OSMajorVersion, '.', OSMinorVersion))\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| project TimeGenerated, Computer, OSType, _ResourceId, _SubscriptionId, Version\r\n| summarize LastReported=max(TimeGenerated) by _ResourceId, Version, Computer, OSType, _SubscriptionId\r\n| order by LastReported asc",
         "size": 2,
         "timeContext": {
-          "durationMs": 7776000000
+          "durationMs": 0
         },
         "timeContextFromParameter": "TimeRange",
         "showExportToExcel": true,
@@ -361,6 +359,7 @@
               "formatter": 13,
               "formatOptions": {
                 "linkTarget": "Resource",
+                "linkIsContextBlade": true,
                 "showIcon": true
               }
             },
@@ -440,7 +439,7 @@
         "query": "ConfigurationData\r\n| where ConfigDataType == \"Software\"\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| project SoftwareName, CurrentVersion, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| order by TimeGenerated desc, SoftwareName asc, Computer asc",
         "size": 2,
         "timeContext": {
-          "durationMs": 7776000000
+          "durationMs": 0
         },
         "timeContextFromParameter": "TimeRange",
         "showExportToExcel": true,
@@ -457,6 +456,7 @@
               "formatter": 13,
               "formatOptions": {
                 "linkTarget": "Resource",
+                "linkIsContextBlade": true,
                 "showIcon": true
               }
             },
@@ -598,7 +598,7 @@
         "query": "ConfigurationData\r\n| where ConfigDataType == \"Files\"\r\n| project FileSystemPath, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| order by TimeGenerated desc, FileSystemPath asc",
         "size": 2,
         "timeContext": {
-          "durationMs": 7776000000
+          "durationMs": 0
         },
         "timeContextFromParameter": "TimeRange",
         "showExportToExcel": true,
@@ -615,6 +615,7 @@
               "formatter": 13,
               "formatOptions": {
                 "linkTarget": "Resource",
+                "linkIsContextBlade": true,
                 "showIcon": true
               }
             },
@@ -766,7 +767,7 @@
         "query": "ConfigurationData\r\n| where ConfigDataType == \"Registry\"\r\n| project RegistryKey, ValueName, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| order by TimeGenerated desc, RegistryKey asc, Computer asc",
         "size": 2,
         "timeContext": {
-          "durationMs": 7776000000
+          "durationMs": 0
         },
         "timeContextFromParameter": "TimeRange",
         "showExportToExcel": true,
@@ -783,6 +784,7 @@
               "formatter": 13,
               "formatOptions": {
                 "linkTarget": "Resource",
+                "linkIsContextBlade": true,
                 "showIcon": true
               }
             },
@@ -1046,7 +1048,7 @@
         "query": "ConfigurationData\r\n| where ConfigDataType == \"WindowsServices\"\r\n| where SvcState in~ ({WindowsServiceState})\r\n| where SvcStartupType in~ ({WindowsServiceStartUpType})\r\n| project SvcName, SvcDisplayName, SvcState, SvcStartupType, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| order by TimeGenerated desc, SvcName asc, Computer asc",
         "size": 2,
         "timeContext": {
-          "durationMs": 7776000000
+          "durationMs": 0
         },
         "timeContextFromParameter": "TimeRange",
         "showExportToExcel": true,
@@ -1063,6 +1065,7 @@
               "formatter": 13,
               "formatOptions": {
                 "linkTarget": "Resource",
+                "linkIsContextBlade": true,
                 "showIcon": true
               }
             },
@@ -1285,7 +1288,7 @@
         "query": "ConfigurationData\r\n| where ConfigDataType == \"Daemons\"\r\n| where SvcState in ({LinuxDaemonState})\r\n| project SvcName, SvcState, TimeGenerated, _ResourceId, _SubscriptionId, Computer\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| order by TimeGenerated desc, SvcName asc, Computer asc",
         "size": 2,
         "timeContext": {
-          "durationMs": 7776000000
+          "durationMs": 0
         },
         "timeContextFromParameter": "TimeRange",
         "showExportToExcel": true,
@@ -1302,16 +1305,13 @@
               "formatter": 13,
               "formatOptions": {
                 "linkTarget": "Resource",
+                "linkIsContextBlade": true,
                 "showIcon": true
               }
             },
             {
               "columnMatch": "_SubscriptionId",
-              "formatter": 15,
-              "formatOptions": {
-                "linkTarget": null,
-                "showIcon": true
-              }
+              "formatter": 5
             },
             {
               "columnMatch": "Computer",

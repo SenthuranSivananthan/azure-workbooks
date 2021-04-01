@@ -76,25 +76,23 @@
             "id": "78b71be8-c2b0-4d82-9f90-22284a63e038",
             "version": "KqlParameterItem/1.0",
             "name": "Subscription",
+            "label": "Subscriptions",
             "type": 6,
             "isRequired": true,
             "multiSelect": true,
             "quote": "'",
             "delimiter": ",",
-            "value": [
-              "value::all"
-            ],
             "typeSettings": {
               "additionalResourceOptions": [
                 "value::all"
               ],
-              "includeAll": false
+              "includeAll": false,
+              "showDefault": false
             },
             "timeContext": {
               "durationMs": 86400000
             },
-            "defaultValue": "value::all",
-            "label": "Subscriptions"
+            "defaultValue": "value::all"
           },
           {
             "id": "3ed36409-e679-4a94-96ce-b76d25a2bde3",
@@ -143,11 +141,7 @@
               "{Subscription}"
             ],
             "value": [
-              "value::all",
-              "/subscriptions/34b63c8f-1782-42e6-8fb9-ba6ee8b99735/resourceGroups/rg/providers/Microsoft.Compute/virtualMachines/win2016",
-              "/subscriptions/34b63c8f-1782-42e6-8fb9-ba6ee8b99735/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/win2019",
-              "/subscriptions/34b63c8f-1782-42e6-8fb9-ba6ee8b99735/resourceGroups/rg/providers/Microsoft.Compute/virtualMachines/u1604",
-              "/subscriptions/34b63c8f-1782-42e6-8fb9-ba6ee8b99735/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/centos82"
+              "value::all"
             ],
             "typeSettings": {
               "additionalResourceOptions": [
@@ -166,7 +160,7 @@
           }
         ],
         "style": "pills",
-        "queryType": 1,
+        "queryType": 0,
         "resourceType": "microsoft.resourcegraph/resources"
       },
       "name": "GlobalParameters"
@@ -261,6 +255,7 @@
               "formatter": 13,
               "formatOptions": {
                 "linkTarget": "Resource",
+                "linkIsContextBlade": true,
                 "showIcon": true
               }
             },
@@ -424,8 +419,11 @@
             },
             {
               "columnMatch": "_ResourceId",
-              "formatter": 0,
+              "formatter": 13,
               "formatOptions": {
+                "linkTarget": "Resource",
+                "linkIsContextBlade": true,
+                "showIcon": true,
                 "customColumnWidthSetting": "19.4286ch"
               }
             },
@@ -466,13 +464,6 @@
               "formatter": 0,
               "formatOptions": {
                 "customColumnWidthSetting": "30ch"
-              }
-            },
-            {
-              "columnMatch": "$gen_group",
-              "formatter": 0,
-              "formatOptions": {
-                "customColumnWidthSetting": "89.8571ch"
               }
             }
           ],
@@ -582,8 +573,14 @@
             },
             {
               "columnMatch": "_ResourceId",
-              "formatter": 0,
+              "formatter": 13,
               "formatOptions": {
+                "linkTarget": "Resource",
+                "linkIsContextBlade": true,
+                "showIcon": true,
+                "bladeOpenContext": {
+                  "bladeParameters": []
+                },
                 "customColumnWidthSetting": "17.2857ch"
               }
             },
@@ -740,8 +737,11 @@
             },
             {
               "columnMatch": "_ResourceId",
-              "formatter": 0,
+              "formatter": 13,
               "formatOptions": {
+                "linkTarget": "Resource",
+                "linkIsContextBlade": true,
+                "showIcon": true,
                 "customColumnWidthSetting": "17.2857ch"
               }
             },
@@ -782,13 +782,6 @@
               "formatter": 0,
               "formatOptions": {
                 "customColumnWidthSetting": "30ch"
-              }
-            },
-            {
-              "columnMatch": "$gen_group",
-              "formatter": 0,
-              "formatOptions": {
-                "customColumnWidthSetting": "89.8571ch"
               }
             }
           ],
