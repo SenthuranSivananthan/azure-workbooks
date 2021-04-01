@@ -180,6 +180,22 @@
             "linkLabel": "Summary",
             "subTarget": "summary",
             "style": "link"
+          },
+          {
+            "id": "b1f2b0b5-ccca-4b3b-a941-f48373bc941e",
+            "cellValue": "tabName",
+            "linkTarget": "parameter",
+            "linkLabel": "Windows Services",
+            "subTarget": "windowsServices",
+            "style": "link"
+          },
+          {
+            "id": "995594d9-171a-4b65-b85e-5648c60e17cc",
+            "cellValue": "tabName",
+            "linkTarget": "parameter",
+            "linkLabel": "Removed Software",
+            "subTarget": "removedSoftware",
+            "style": "link"
           }
         ]
       },
@@ -190,6 +206,11 @@
       "content": {
         "json": "## Change Type"
       },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "summary"
+      },
       "customWidth": "50",
       "name": "text - 11"
     },
@@ -197,6 +218,11 @@
       "type": 1,
       "content": {
         "json": "## Change Category"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "summary"
       },
       "customWidth": "50",
       "name": "text - 12"
@@ -217,6 +243,11 @@
           "{Subscription}"
         ],
         "visualization": "piechart"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "summary"
       },
       "customWidth": "50",
       "name": "query - 13",
@@ -240,6 +271,11 @@
           "{Subscription}"
         ],
         "visualization": "piechart"
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "summary"
       },
       "customWidth": "50",
       "name": "ConfigChangeTypeChart",
@@ -400,6 +436,343 @@
         "value": "summary"
       },
       "name": "MachineList",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Recent stopped auto services\r\n\r\nShows services that were set to Auto but reported as being stopped."
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "windowsServices"
+      },
+      "name": "AutoServicesOffHeader"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationData\r\n| where ConfigDataType == \"WindowsServices\" and SvcStartupType == \"Auto\"\r\n| where SvcState == \"Stopped\"\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| summarize arg_max(TimeGenerated, _ResourceId, SvcName, SvcState, SvcAccount, SvcPath, _SubscriptionId) by SvcDisplayName\r\n| order by TimeGenerated desc",
+        "size": 2,
+        "timeContext": {
+          "durationMs": 172800000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "$gen_group",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true,
+                "customColumnWidthSetting": "25%"
+              }
+            },
+            {
+              "columnMatch": "SvcDisplayName",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "linkIsContextBlade": true,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "SvcName",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "ConfigChange",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Details",
+              "formatter": 7,
+              "formatOptions": {
+                "linkTarget": "CellDetails",
+                "linkLabel": "View",
+                "linkIsContextBlade": true
+              }
+            },
+            {
+              "columnMatch": "ResourceGroup",
+              "formatter": 5
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "hierarchySettings": {
+            "treeType": 1,
+            "groupBy": [
+              "_ResourceId"
+            ],
+            "expandTopLevel": true,
+            "finalBy": "SvcDisplayName"
+          },
+          "labelSettings": [
+            {
+              "columnId": "SvcDisplayName",
+              "label": "Service Display Name"
+            },
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Reported (UTC)"
+            },
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            },
+            {
+              "columnId": "SvcName",
+              "label": "Service Name"
+            },
+            {
+              "columnId": "SvcState",
+              "label": "Service State"
+            },
+            {
+              "columnId": "SvcAccount",
+              "label": "Service Account"
+            },
+            {
+              "columnId": "SvcPath",
+              "label": "Path"
+            },
+            {
+              "columnId": "_SubscriptionId",
+              "label": "Subscription"
+            }
+          ]
+        },
+        "sortBy": [],
+        "tileSettings": {
+          "showBorder": false,
+          "titleContent": {
+            "columnMatch": "_ResourceId",
+            "formatter": 1
+          },
+          "leftContent": {
+            "columnMatch": "Security Updates",
+            "formatter": 12,
+            "formatOptions": {
+              "palette": "auto"
+            },
+            "numberFormat": {
+              "unit": 17,
+              "options": {
+                "maximumSignificantDigits": 3,
+                "maximumFractionDigits": 2
+              }
+            }
+          }
+        },
+        "graphSettings": {
+          "type": 0
+        },
+        "mapSettings": {
+          "locInfo": "AzureResource",
+          "sizeSettings": "Security Updates",
+          "sizeAggregation": "Sum",
+          "legendMetric": "Security Updates",
+          "legendAggregation": "Sum",
+          "itemColorSettings": {
+            "type": "heatmap",
+            "colorAggregation": "Sum",
+            "nodeColorField": "Security Updates",
+            "heatmapPalette": "greenRed"
+          },
+          "locInfoColumn": "_ResourceId"
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "windowsServices"
+      },
+      "name": "AutoServicesOffList",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Removed software changes\r\n\r\nShows change records for removed software."
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "removedSoftware"
+      },
+      "name": "RemovedSoftwareHeader"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "ConfigurationChange\r\n| where ConfigChangeType == \"Software\" and ChangeCategory == \"Removed\"\r\n| parse kind=regex flags=i _ResourceId with '/resourcegroups/' ResourceGroup '/providers/' *\r\n| where '__all__' in~ ({ResourceGroups}) or ResourceGroup in~ ({ResourceGroups})\r\n| where '__all__' in~ ({VMList}) or _ResourceId in~ ({VMList})\r\n| summarize arg_max(TimeGenerated, _ResourceId, ChangeCategory, SoftwareType, SoftwareName, Publisher, _SubscriptionId) by SoftwareName\r\n| order by TimeGenerated desc",
+        "size": 2,
+        "timeContext": {
+          "durationMs": 172800000
+        },
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.resources/subscriptions",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "$gen_group",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true,
+                "customColumnWidthSetting": "25%"
+              }
+            },
+            {
+              "columnMatch": "SoftwareName",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "_ResourceId",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "linkIsContextBlade": true,
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "_SubscriptionId",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "SvcDisplayName",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "SvcName",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "ConfigChange",
+              "formatter": 5
+            }
+          ],
+          "rowLimit": 10000,
+          "filter": true,
+          "hierarchySettings": {
+            "treeType": 1,
+            "groupBy": [
+              "_ResourceId"
+            ],
+            "expandTopLevel": true,
+            "finalBy": "SoftwareName"
+          },
+          "labelSettings": [
+            {
+              "columnId": "SoftwareName",
+              "label": "Software"
+            },
+            {
+              "columnId": "TimeGenerated",
+              "label": "Last Reported (UTC)"
+            },
+            {
+              "columnId": "_ResourceId",
+              "label": "VM"
+            },
+            {
+              "columnId": "ChangeCategory",
+              "label": "Change Category"
+            },
+            {
+              "columnId": "SoftwareType",
+              "label": "Type"
+            },
+            {
+              "columnId": "SoftwareName1"
+            },
+            {
+              "columnId": "Publisher"
+            },
+            {
+              "columnId": "_SubscriptionId",
+              "label": "Subscription"
+            }
+          ]
+        },
+        "sortBy": [],
+        "tileSettings": {
+          "showBorder": false,
+          "titleContent": {
+            "columnMatch": "_ResourceId",
+            "formatter": 1
+          },
+          "leftContent": {
+            "columnMatch": "Security Updates",
+            "formatter": 12,
+            "formatOptions": {
+              "palette": "auto"
+            },
+            "numberFormat": {
+              "unit": 17,
+              "options": {
+                "maximumSignificantDigits": 3,
+                "maximumFractionDigits": 2
+              }
+            }
+          }
+        },
+        "graphSettings": {
+          "type": 0
+        },
+        "mapSettings": {
+          "locInfo": "AzureResource",
+          "sizeSettings": "Security Updates",
+          "sizeAggregation": "Sum",
+          "legendMetric": "Security Updates",
+          "legendAggregation": "Sum",
+          "itemColorSettings": {
+            "type": "heatmap",
+            "colorAggregation": "Sum",
+            "nodeColorField": "Security Updates",
+            "heatmapPalette": "greenRed"
+          },
+          "locInfoColumn": "_ResourceId"
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tabName",
+        "comparison": "isEqualTo",
+        "value": "removedSoftware"
+      },
+      "name": "RemovedSoftwareList",
       "styleSettings": {
         "showBorder": true
       }
